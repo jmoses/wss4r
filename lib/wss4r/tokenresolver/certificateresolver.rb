@@ -4,6 +4,8 @@ require "wss4r/security/crypto/certificate"
 module WSS4R
   module Tokenresolver
     class CertificateDirectoryResolver < Resolver
+      
+      include OpenSSL::PKey
 		
       def initialize(directory)
         File.stat(directory).directory?

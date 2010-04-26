@@ -27,18 +27,13 @@ require "wss4r/security/exceptions/exceptions"
 require "wss4r/config/config"
 require "wss4r/security/resolver"
 
-require "time"
-require "base64"
-require "rexml/document"
+# include SOAP
 
-require "soap/rpc/driver"
-include SOAP
-
-include OpenSSL
-include OpenSSL::X509
-include OpenSSL::Digest
-include OpenSSL::Cipher
-include OpenSSL::PKey
+# include OpenSSL
+# include OpenSSL::X509
+# include OpenSSL::Digest
+# include OpenSSL::Cipher
+# include OpenSSL::PKey
 
 include WSS4R::Security::Xml
 include WSS4R::Security::Util
@@ -89,6 +84,7 @@ module WSS4R
         document.root.add_namespace("xmlns:xsd", Namespaces::XSD)
         document.root.add_namespace("xmlns:xsi", Namespaces::XSI)
         root = document.root()
+
         soap_prefix = nil
         soap_ns=nil
         root.attributes.each_attribute() {|attr|

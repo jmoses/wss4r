@@ -4,7 +4,7 @@ module WSS4R
 	
       class SymmetricEncrypter
         def initialize(algorithm, key = nil, iv = nil)
-          @cipher = Cipher.new(algorithm)
+          @cipher = OpenSSL::Cipher::Cipher.new(algorithm)
           @algorithm = algorithm
           if (iv == nil)
             @iv = @cipher.random_iv()
@@ -58,7 +58,7 @@ module WSS4R
 
       class TripleDESSymmetricEncrypter < SymmetricEncrypter
         def initialize(key = nil, iv = nil)
-          @cipher = Cipher.new("DES-EDE3-CBC")
+          @cipher = OpenSSL::Cipher::Cipher.new("DES-EDE3-CBC")
           if (iv == nil)
             @iv = @cipher.random_iv()
           else
@@ -91,7 +91,7 @@ module WSS4R
 
       class AESSymmetricEncrypter < SymmetricEncrypter
         def initialize(key = nil, iv = nil)
-          @cipher = Cipher.new(self.cipher_name)
+          @cipher = OpenSSL::Cipher::Cipher.new(self.cipher_name)
           if (iv == nil)
             @iv = @cipher.random_iv()
           else
@@ -142,14 +142,14 @@ module WSS4R
 
       class AsymmetricEncrypter
         def initialize(filename)
-          @private_key = RSA.new(File.read(filename))
+          @private_key = OpenSSL::PKey::RSA.new(File.read(filename))
         end
    
         def decrypt_symmetrickey_from_b64(text)
           ciphertext  = @private_rsa_key.private_decrypt(text)
           iv = ciphertext[0..7]
           key = ciphertext[8..-1]
-          symmetric_key = Cipher.new(@symmetric_algorithm)
+          symmetric_key = OpenSSL::Cipher::Cipher.new(@symmetric_algorithm)
           symmetric_key.decrypt(key, iv)
           symmetric_key.key = key
           symmetric_key

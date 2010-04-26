@@ -1,6 +1,8 @@
 module WSS4R
   module Security
     module Xml
+      
+      include OpenSSL::X509
 
       class SecurityToken
         def add_namespace(document, prefix, ns)

@@ -70,10 +70,10 @@ WSS4R_FILES = %w{
 
 Gem::Specification.new do |s|
   s.name = "wss4r"
-  s.version = "0.5.1"
+  s.version = "0.5.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Roland Schmitt"]
+  s.authors = ["Roland Schmitt", "Herval Freire"]
 
   s.date = "2005-12-22"
   s.description = "Partial implementation of some of the WS-Security standards on top of SOAP4R."
