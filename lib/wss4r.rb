@@ -11,6 +11,3 @@ module SOAP
   XSDNamespaceTag  = 'xsd'
   XSINamespaceTag  = 'xsi'
 end
-
-
-p "init!!"
