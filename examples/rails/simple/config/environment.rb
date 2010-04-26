@@ -13,10 +13,14 @@ Rails::Initializer.run do |config|
 
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/app/services )
+  config.load_paths += %W( #{RAILS_ROOT}/app/apis )
 
   # Force all environments to use the same logger level 
   # (by default production uses :info, the others :debug)
   # config.log_level = :debug
+  config.gem "ywen-actionwebservice", :lib => "actionwebservice"
+  config.gem "soap4r", :lib => false
+  config.gem "wss4r", :lib => false
 
   # Use the database for sessions instead of the file system
   # (create the session table with 'rake create_sessions_table')
@@ -37,6 +41,7 @@ Rails::Initializer.run do |config|
   # config.active_record.schema_format = :ruby
 
   # See Rails::Configuration for more options
+  config.action_controller.session = { :key => "_myapp_session", :secret => "oiuo;rub3;4ru32eed9jnqw3;0d9injp;de0238rn;pdksfjef0;9s7dasodsab;o" }
 end
 
 # Add new inflection rules using the following format 

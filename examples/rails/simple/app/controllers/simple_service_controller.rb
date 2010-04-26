@@ -1,3 +1,4 @@
+require "wss4r"
 require "wss4r/aws/utils"
 require "activerecordresolver"
 
