@@ -1,5 +1,6 @@
 WSS4R_FILES = %w{
   wss4r.gemspec
+  lib/wss4r.rb
   lib/wss4r/aws/utils.rb
   CHANGELOG
   README
@@ -87,6 +88,6 @@ Gem::Specification.new do |s|
   s.rubygems_version = "1.3.5"
   s.summary = "Partial implementation of some of the WS-Security standards on top of SOAP4R."
 
-  s.add_dependency("rubigen", [">= 1.0.6"])
-  s.add_dependency("log4r", [">= 1.0.5"])
+  # s.add_dependency("rubigen", [">= 1.0.6"])
+  # s.add_dependency("log4r", [">= 1.0.5"])
 end
