@@ -5,23 +5,23 @@ module WSS4R
       class Timestamp
 	
 	def process(security)
-          timestamp = security.add_element(Names::TIMESTAMP)
-          timestamp.add_attribute("wsu:Id", timestamp.object_id().to_s())
-          created = timestamp.add_element(Names::CREATED)
-          expires = timestamp.add_element(Names::EXPIRES)
+          # timestamp = security.add_element(Names::TIMESTAMP)
+          # timestamp.add_attribute("wsu:Id", timestamp.object_id().to_s())
+          # created = timestamp.add_element(Names::CREATED)
+          # expires = timestamp.add_element(Names::EXPIRES)
 
 		
           #BUG #4400-------------------------------
-          #created_time = Time.new().gmtime()
-          #expired_time = created_time+5*60 #
+          # created_time = Time.new().gmtime()
+          # expired_time = created_time+5*60
           created_time = Time.new().getutc()
           expired_time = created_time+(60*5)
 		
           created_time = created_time.iso8601()
           expired_time = expired_time.iso8601()
 
-          created.text=(created_time.to_s())
-          expires.text=(expired_time.to_s())
+          # created.text=(created_time.to_s())
+          # expires.text=(expired_time.to_s())
           security
 	end
 	

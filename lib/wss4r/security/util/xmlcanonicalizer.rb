@@ -126,19 +126,25 @@ module WSS4R
           @res
         end
         
+        attr_reader :preserve_element
+        
         def canonicalize_element(element)
           @inclusive_namespaces = add_inclusive_namespaces(@prefix_list, element, @inclusive_namespaces) if (@prefix_list)
           @preserve_document = element.document()
           tmp_parent = element.parent()
           body_string = remove_whitespace(element.to_s().gsub("\n","").gsub("\t","").gsub("\r",""))
+
           document = Document.new(body_string)
           tmp_parent.delete_element(element)
-          element = tmp_parent.add_element(document.root())
+          element = tmp_parent.add_element(document.root()) # this attribution basically severs the element-parent association - next call will have an element WITHOUT a parent
           @preserve_element = element
           document = Document.new(element.to_s())
-          ns = element.namespace(element.prefix())
-          document.root().add_namespace(element.prefix(), ns)
+          unless element.prefix().blank?
+            ns = element.namespace(element.prefix())
+            document.root().add_namespace(element.prefix(), ns)
+          end
           write_document_node(document)
+          
           @res
         end
         
@@ -237,10 +243,12 @@ module WSS4R
           list.sort!()
           list.each{|prefix|
             next if (prefix == "")
-				next if (@rendered_prefixes.include?(prefix))
-				@rendered_prefixes.push(prefix)
+    				next if (@rendered_prefixes.include?(prefix))
+		    		@rendered_prefixes.push(prefix)
             ns = node.namespace(prefix)
             ns = @preserve_element.namespace(prefix) if (ns == nil)
+            # p prefix, ns, node
+            # next if ns.nil?
             @res = @res + normalize_string(" " + prefix + '="' + ns + '"', NODE_TYPE_TEXT) if (prefix == "xmlns")
             @res = @res + normalize_string(" xmlns:" + prefix + '="' + ns + '"', NODE_TYPE_TEXT) if (prefix != nil && prefix != "xmlns")
           }

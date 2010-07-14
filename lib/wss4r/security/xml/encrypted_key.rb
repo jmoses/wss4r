@@ -15,7 +15,7 @@ class EncryptedKey
    def unprocess(encrypted_key)
 		#key_info = SOAPParser.element(encrypted_key, SOAPParser::KEY_INFO)
 		algorithm = XPath.first(encrypted_key, "//xenc:EncryptionMethod", {"xenc" => Namespaces::XENC})
-		key_info_element = XPath.first(encrypted_key, "ds:KeyInfo", {"ds"=>Namespaces::DS})
+		key_info_element = XPath.first(encrypted_key, "KeyInfo", {"ds"=>Namespaces::DS})
 		key_info = KeyInfo.new(key_info_element)
       resolver = WSS4R::Security::Security.new().resolver()
       @reference_list = ReferenceList.new(encrypted_key.get_elements("//xenc:ReferenceList")[0])

@@ -77,7 +77,7 @@ module WSS4R
         return if (@tokens.size() == 0)
         SOAPParser.document=(document)
         
-        document.root.add_namespace("xmlns:wsu", Namespaces::WSU)
+        # document.root.add_namespace("xmlns:wsu", Namespaces::WSU)
         document.root.add_namespace("xmlns:wsse", Namespaces::WSSE)
         document.root.add_namespace("xmlns:wsa", Namespaces::WSA)
         document.root.add_namespace("xmlns:xenc", Namespaces::XENCD)
@@ -120,7 +120,7 @@ module WSS4R
         }
         ####Sort
         security = XPath.first(root, "/env:Envelope/env:Header/wsse:Security")#, {SOAPParser::soap_prefix=>SOAPParser::soap_ns})
-        timestamp = XPath.first(security, "wsu:Timestamp")
+        # timestamp = XPath.first(security, "wsu:Timestamp")
         @t = timestamp
         @s = security
         children = security.children()

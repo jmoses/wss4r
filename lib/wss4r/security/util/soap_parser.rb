@@ -11,16 +11,16 @@ class SOAPParser
 	SECURITY = "/env:Envelope/env:Header/wsse:Security"
 	CIPHER_DATA = "//xenc:CipherData//xenc:CipherValue"
 	CIPHER_VALUE = "//xenc:CipherValue"
-	SIGNED_INFO = "//ds:SignedInfo"
+	SIGNED_INFO = "//SignedInfo"
 	ENCRYPTION_METHOD = "//xenc:EncryptionMethod"
-	KEY_INFO = "//ds:KeyInfo"
+	KEY_INFO = "//KeyInfo"
 	REFERENCE_LIST = "//env:Envelope/env:Header/wsse:Security/xenc:EncryptedKey/xenc:ReferenceList"
-	SIGNATURE = "/env:Envelope/env:Header/wsse:Security/ds:Signature"
+  SIGNATURE = "/env:Envelope/env:Header/Signature"
 	ENCRYPTED_KEY = "/env:Envelope/env:Header/wsse:Security/xenc:EncryptedKey"
 	@@document = nil
 	@@prefix = nil
-	@@soap_ns = nil
-	@@soap_prefix = nil
+	@@soap_ns = "http://schemas.xmlsoap.org/soap/envelope/"
+	@@soap_prefix = "env"
 	
 	def self.document()
 		@@document

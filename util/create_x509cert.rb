@@ -1,9 +1,9 @@
 require 'openssl'
 require 'base64'
 
-include OpenSSL
-include X509
-include PKey
+# include OpenSSL
+# include X509
+# include PKey
 
 #p x509 = Certificate.new(File.read("./Server.cer"))
 

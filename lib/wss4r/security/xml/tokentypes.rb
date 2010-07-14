@@ -2,8 +2,6 @@ module WSS4R
   module Security
     module Xml
       
-      include OpenSSL::X509
-
       class SecurityToken
         def add_namespace(document, prefix, ns)
           document.root().add_namespace("xmlns:"+prefix, ns)
@@ -18,22 +16,22 @@ module WSS4R
         attr_accessor :private_key
 	
         def initialize(x509certificate, private_key = nil)
-          if (x509certificate.kind_of?(Certificate))
+          if (x509certificate.kind_of?(OpenSSL::X509::Certificate))
             @certificate = x509certificate
           elsif x509certificate.instance_of?(String)
-            @certificate = Certificate.new(Base64.decode64(x509certificate))
+            @certificate = OpenSSL::X509::Certificate.new(Base64.decode64(x509certificate))
           end
           @private_key = private_key
         end
    
         def process(document)
           e = Element.new(Names::BINARY_SECURITY_TOKEN)
-          e.add_namespace("xmlns:wsu", Namespaces::WSU)
+          # e.add_namespace("xmlns:wsu", Namespaces::WSU)
           der_certificate_string = Base64.encode64(@certificate.to_der())
           der_certificate_string.delete!("\n\r")
 
           e.add_text(der_certificate_string)
-          e.add_attribute("wsu:Id", get_id())
+          # e.add_attribute("wsu:Id", get_id())
 		
           e.add_attribute("ValueType", Types::REFERENCE_VALUETYPE_X509)
           e.add_attribute("EncodingType", Types::ENCODING_X509V3)

@@ -2,10 +2,10 @@ require "openssl"
 require "rexml/document"
 require "base64"
 
-include REXML
-include OpenSSL
-include X509
-include Cipher
+# include REXML
+# include OpenSSL
+# include X509
+# include Cipher
 
 class DecryptXML
   def initialize(filename)

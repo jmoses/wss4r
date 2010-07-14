@@ -6,30 +6,30 @@ module WSS4R
 	def initialize()
 	end
 	
-	def process(document)
-          security = XPath.first(document, "/env:Envelope/env:Header/wsse:Security")#, {SOAPParser::soap_prefix=>SOAPParser::soap_ns})
-          return security if (security != nil)
-          header = XPath.first(document, "/env:Envelope/env:Header", {SOAPParser::soap_prefix=>SOAPParser::soap_ns})
-          security = header.add_element(Names::SECURITY, {"env:mustUnderstand"=>"1"})
-          security.add_namespace("xmlns:wsse", Namespaces::WSSE)
-          Timestamp.new().process(security)
-          security
-	end
+  # def process(document, parent_path = "/env:Envelope/env:Header")
+  #           security = XPath.first(document, "#{parent_path}/#{Names::SIGNATURE}")#, {SOAPParser::soap_prefix=>SOAPParser::soap_ns})
+  #           return security if (security != nil)
+  #           header = XPath.first(document, parent_path, {SOAPParser::soap_prefix=>SOAPParser::soap_ns})
+  #           security = header.add_element(Names::SIGNATURE, {}) #"env:mustUnderstand"=>"1"})
+  #           security.add_namespace("xmlns:ds", Namespaces::DS)
+  #           # Timestamp.new().process(security)
+  #           security
+  # end
 
 	def unprocess(document)
           # Is the document signed?
           #signature_element = SOAPParser.part(SOAPParser::SIGNATURE)
-          wsse = XPath.first(document, "/soap:Envelope/soap:Header/wsse:Security", {"soap"=>Namespaces::SOAP, "wsse" => Namespaces::WSSE})
+          # wsse = XPath.first(document, "/soap:Envelope/soap:Header/ds:Signature", {"soap"=>Namespaces::SOAP, "ds" => Namespaces::DS})
           #wsse = XPath.first(document, "/env:Envelope/env:Header/wsse:Security")
 		
-          timestamp = XPath.first(document, "/soap:Envelope/soap:Header/wsse:Security/wsu:Timestamp", {"soap"=>Namespaces::SOAP, "wsse"=>Namespaces::WSSE, "wsu"=>Namespaces::WSU})
+          timestamp = null #XPath.first(document, "/soap:Envelope/soap:Header/wsse:Security/wsu:Timestamp", {"soap"=>Namespaces::SOAP, "wsse"=>Namespaces::WSSE, "wsu"=>Namespaces::WSU})
           #TODO: check timestamp, if it exists
           if (timestamp != nil)
             t = Timestamp.new()
             t.unprocess(timestamp)
             t.verify()
           end
-          signature_element = XPath.first(document, "/env:Envelope/env:Header/wsse:Security/ds:Signature", {"env"=>Namespaces::SOAP, "ds"=>Namespaces::DS})
+          signature_element = XPath.first(document, "/env:Envelope/env:Header/Signature", {"env"=>Namespaces::SOAP, "ds"=>Namespaces::DS})
           header = XPath.first(document, "/env:Envelope/env:Header", {"env"=>Namespaces::SOAP, "ds"=>Namespaces::DS})
 		
           encrypted_key_element = SOAPParser.part(SOAPParser::ENCRYPTED_KEY)
@@ -50,16 +50,16 @@ module WSS4R
             if (encrypted_key_element != nil)
               handle_encryption(document, encrypted_key_element)
             end
-            signature_element = XPath.first(document, "/env:Envelope/env:Header/wsse:Security/ds:Signature", {"env"=>Namespaces::SOAP, "ds"=>Namespaces::DS})
+            signature_element = XPath.first(document, "/env:Envelope/env:Header/Signature", {"env"=>Namespaces::SOAP, "ds"=>Namespaces::DS})
             if (signature_element != nil)	
               handle_signature(signature_element)
             end
           end	            
           #UsernameToken in the document?
-          usernametoken = XPath.first(document, "/env:Envelope/env:Header/wsse:Security/wsse:UsernameToken", {"env"=>Namespaces::SOAP, "ds"=>Namespaces::DS})
-          if (usernametoken)
-            handle_usernametoken(document, usernametoken)
-          end	
+          # usernametoken = XPath.first(document, "/env:Envelope/env:Header/wsse:Security/wsse:UsernameToken", {"env"=>Namespaces::SOAP, "ds"=>Namespaces::DS})
+          # if (usernametoken)
+          #   handle_usernametoken(document, usernametoken)
+          # end 
 	end
 	
 	def handle_signature(signature_element)

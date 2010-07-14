@@ -53,6 +53,6 @@ end
 
 if __FILE__ == $0
 	document = REXML::Document.new(File.new(ARGV[0]))
-	element = document.select("/env:Envelope/env:Header/wsse:Security/ds:Signature")
+	element = document.select("/env:Envelope/env:Header/Signature")
 	puts("selected: " + element.to_s())
 end
