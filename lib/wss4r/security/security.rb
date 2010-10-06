@@ -120,7 +120,6 @@ module WSS4R
         }
         ####Sort
         security = XPath.first(root, "/env:Envelope/env:Header/wsse:Security")#, {SOAPParser::soap_prefix=>SOAPParser::soap_ns})
-        puts document
         timestamp = XPath.first(security, "wsu:Timestamp")
         @t = timestamp
         @s = security

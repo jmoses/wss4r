@@ -6,6 +6,7 @@ module WSS4R
 	def initialize()
 	end
 	
+
   def process(document, parent_path = "/env:Envelope/env:Header")
             security = XPath.first(document, "#{parent_path}/#{Names::SECURITY}")#, {SOAPParser::soap_prefix=>SOAPParser::soap_ns})
             return security if (security != nil)
@@ -16,7 +17,7 @@ module WSS4R
             Timestamp.new().process(security)
             security
   end
-
+  
 	def unprocess(document)
           # Is the document signed?
           #signature_element = SOAPParser.part(SOAPParser::SIGNATURE)
